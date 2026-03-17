@@ -1,0 +1,6 @@
+id=wxwork-tablet
+name=企业微信 平板模式
+version=1.0
+versionCode=10
+author=自制
+description=通过Zygisk让企业微信识别设备为平板电脑（HUAWEI MatePad Pro），开启分栏UI，仅影响企业微信进程，必须启用Zygisk
