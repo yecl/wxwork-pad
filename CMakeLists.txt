@@ -19,7 +19,7 @@ FetchContent_Declare(
 FetchContent_Declare(
     shadowhook
     GIT_REPOSITORY https://github.com/bytedance/android-inline-hook.git
-    GIT_TAG        v1.1.0
+    GIT_TAG        v1.1.1
     GIT_SHALLOW    TRUE
 )
 
