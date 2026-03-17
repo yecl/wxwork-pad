@@ -12,6 +12,7 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/LSPosed/LSPlant.git
     GIT_TAG        v6.4
     GIT_SHALLOW    TRUE
+    GIT_SUBMODULES "lsplant/src/main/jni/external/dex_builder"  # skip private test submodules
     SOURCE_SUBDIR  lsplant          # CMakeLists.txt is inside lsplant/ subdir
 )
 
