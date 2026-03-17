@@ -27,6 +27,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(shadowhook lsplant)
 
+# Suppress NDK r27c strict warnings in shadowhook C sources
+target_compile_options(shadowhook PRIVATE
+    -Wno-declaration-after-statement
+    -Wno-unsafe-buffer-usage
+)
+
 add_library(wxwork-tablet SHARED jni/main.cpp)
 
 target_include_directories(wxwork-tablet PRIVATE
