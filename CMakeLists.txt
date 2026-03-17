@@ -30,6 +30,12 @@ FetchContent_MakeAvailable(shadowhook lsplant)
 # Suppress all warnings in shadowhook (third-party, not our code)
 target_compile_options(shadowhook PRIVATE -w)
 
+# Prevent shadowhook's -std=c17 and internal include paths from leaking into our C++ target
+set_target_properties(shadowhook PROPERTIES
+    INTERFACE_COMPILE_OPTIONS ""
+    INTERFACE_INCLUDE_DIRECTORIES ""
+)
+
 add_library(wxwork-tablet SHARED jni/main.cpp)
 
 target_include_directories(wxwork-tablet PRIVATE
