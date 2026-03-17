@@ -38,6 +38,7 @@ target_compile_options(shadowhook PRIVATE -w)
 set_target_properties(shadowhook PROPERTIES
     INTERFACE_COMPILE_OPTIONS ""
     INTERFACE_INCLUDE_DIRECTORIES ""
+    INTERFACE_LINK_OPTIONS ""
 )
 
 add_library(wxwork-tablet SHARED jni/main.cpp)
