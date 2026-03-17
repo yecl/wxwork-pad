@@ -10,7 +10,7 @@ include(FetchContent)
 FetchContent_Declare(
     lsplant
     GIT_REPOSITORY https://github.com/LSPosed/LSPlant.git
-    GIT_TAG        v6.4
+    GIT_TAG        v5.2
     GIT_SHALLOW    TRUE
     GIT_SUBMODULES "lsplant/src/main/jni/external/dex_builder"  # skip private test submodules
     SOURCE_SUBDIR  lsplant/src/main/jni   # actual CMakeLists.txt location
