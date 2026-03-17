@@ -13,7 +13,7 @@ FetchContent_Declare(
     GIT_TAG        v6.4
     GIT_SHALLOW    TRUE
     GIT_SUBMODULES "lsplant/src/main/jni/external/dex_builder"  # skip private test submodules
-    SOURCE_SUBDIR  lsplant          # CMakeLists.txt is inside lsplant/ subdir
+    SOURCE_SUBDIR  lsplant/src/main/jni   # actual CMakeLists.txt location
 )
 
 # ─── ShadowHook — inline hook backend ────────────────────────────────────────
@@ -30,7 +30,7 @@ add_library(wxwork-tablet SHARED jni/main.cpp)
 
 target_include_directories(wxwork-tablet PRIVATE
     jni
-    ${lsplant_SOURCE_DIR}/lsplant/include
+    ${lsplant_SOURCE_DIR}/lsplant/src/main/jni/include
 )
 
 target_link_libraries(wxwork-tablet
