@@ -10,7 +10,7 @@ include(FetchContent)
 FetchContent_Declare(
     lsplant
     GIT_REPOSITORY https://github.com/LSPosed/LSPlant.git
-    GIT_TAG        v0.7.0
+    GIT_TAG        v6.4
     GIT_SHALLOW    TRUE
     SOURCE_SUBDIR  lsplant          # CMakeLists.txt is inside lsplant/ subdir
 )
