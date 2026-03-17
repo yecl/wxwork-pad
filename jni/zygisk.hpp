@@ -129,9 +129,9 @@ struct api_table {
     // slot 2
     void (*hookJniNativeMethods)(JNIEnv *, const char *, JNINativeMethod *, int);
     // slot 3
-    void (*pltHookRegister)(void *, uint32_t, const char *, const char *, void *, void **);
+    void (*pltHookRegister)(void *, const char *, const char *, void *, void **);
     // slot 4
-    void (*pltHookExclude)(void *, uint32_t, const char *, const char *);
+    void (*pltHookExclude)(void *, const char *, const char *);
     // slot 5
     bool (*pltHookCommit)(void *);
     // slot 6
@@ -170,11 +170,11 @@ inline void Api::hookJniNativeMethods(JNIEnv *env, const char *cls,
 
 inline void Api::pltHookRegister(const char *regex, const char *symbol,
                                    void *callback, void **backup) {
-    tbl->pltHookRegister(tbl->impl, ~0u, regex, symbol, callback, backup);
+    tbl->pltHookRegister(tbl->impl, regex, symbol, callback, backup);
 }
 
 inline void Api::pltHookExclude(const char *regex, const char *symbol) {
-    tbl->pltHookExclude(tbl->impl, ~0u, regex, symbol);
+    tbl->pltHookExclude(tbl->impl, regex, symbol);
 }
 
 inline bool Api::pltHookCommit() {

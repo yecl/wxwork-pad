@@ -1,17 +1,9 @@
 /**
  * 企业微信平板模式 Zygisk 模块
  *
- * 两层 Hook，无外部依赖，仅需 NDK：
- *
- * 1. preAppSpecialize：
- *    - 检查进程名是否为 com.tencent.wework，不是则卸载模块
- *    - 用 Zygisk 内置 pltHookRegister 挂钩所有已加载 .so 中的
- *      __system_property_get（覆盖企业微信自己的 native 代码）
- *
- * 2. postAppSpecialize：
- *    - 用 api->hookJniNativeMethods 替换
- *      android.os.SystemProperties.native_get
- *      （覆盖 Java 层 Build.MODEL / System.getProperty() 路径）
+ * Hook android.os.SystemProperties.native_get（JNI 层），
+ * 覆盖 Java 层 Build.MODEL / SystemProperties.get() 的调用路径。
+ * 企业微信的平板检测走 Java 层，这一层足够。
  */
 
 #include "zygisk.hpp"
@@ -41,21 +33,7 @@ static const char *spoof_value(const char *key) {
     return nullptr;
 }
 
-// ─── Layer 1: PLT hook ────────────────────────────────────────────────────────
-// 挂钩企业微信自有 native 库里的 __system_property_get 调用
-
-static int (*orig_system_property_get)(const char *, char *) = nullptr;
-
-static int my_system_property_get(const char *name, char *value) {
-    const char *spoof = spoof_value(name);
-    if (spoof) {
-        strcpy(value, spoof);
-        return (int)strlen(spoof);
-    }
-    return orig_system_property_get(name, value);
-}
-
-// ─── Layer 2: JNI hook ────────────────────────────────────────────────────────
+// ─── JNI hook ─────────────────────────────────────────────────────────────────
 // 挂钩 android.os.SystemProperties.native_get
 // 覆盖 Java 层 Build.MODEL / SystemProperties.get() 的调用路径
 
@@ -102,15 +80,6 @@ public:
         }
 
         LOGD("target process: com.tencent.wework");
-
-        // Layer 1：用 Zygisk 内置 PLT hook 挂钩企业微信所有 .so
-        // 正则 ".*" 匹配所有已加载库（包括企业微信自己打包的 .so）
-        api->pltHookRegister(".*", "__system_property_get",
-                             (void *)my_system_property_get,
-                             (void **)&orig_system_property_get);
-        if (!api->pltHookCommit()) {
-            LOGE("pltHookCommit failed");
-        }
     }
 
     void postAppSpecialize(const zygisk::AppSpecializeArgs *) override {
