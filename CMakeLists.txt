@@ -4,12 +4,36 @@ project(wxwork-tablet LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(FetchContent)
+
+# ─── LSPlant — ART method hook library ───────────────────────────────────────
+FetchContent_Declare(
+    lsplant
+    GIT_REPOSITORY https://github.com/LSPosed/LSPlant.git
+    GIT_TAG        v0.7.0
+    GIT_SHALLOW    TRUE
+    SOURCE_SUBDIR  lsplant          # CMakeLists.txt is inside lsplant/ subdir
+)
+
+# ─── ShadowHook — inline hook backend ────────────────────────────────────────
+FetchContent_Declare(
+    shadowhook
+    GIT_REPOSITORY https://github.com/bytedance/android-inline-hook.git
+    GIT_TAG        v1.1.0
+    GIT_SHALLOW    TRUE
+)
+
+FetchContent_MakeAvailable(shadowhook lsplant)
+
 add_library(wxwork-tablet SHARED jni/main.cpp)
 
 target_include_directories(wxwork-tablet PRIVATE jni)
 
-target_link_libraries(wxwork-tablet log)   # __android_log_print
-# libc（含 __system_property_get）由 NDK 自动链接，无需显式写
+target_link_libraries(wxwork-tablet
+    lsplant
+    shadowhook
+    log
+)
 
 target_compile_options(wxwork-tablet PRIVATE
     -O2
