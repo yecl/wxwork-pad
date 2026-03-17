@@ -25,9 +25,9 @@ FetchContent_Declare(
     SOURCE_SUBDIR  shadowhook/src/main/cpp   # actual CMakeLists.txt location
 )
 
-# Build lsplant as static lib — avoids the post-build debug-symbol step that
-# uses an incorrect absolute path (/${ANDROID_ABI}) in standalone CMake builds
-set(LSPLANT_BUILD_SHARED OFF CACHE BOOL "" FORCE)
+# Fix lsplant's post-build debug-symbol step: set a valid output directory so
+# it doesn't try to create the invalid absolute path "/${ANDROID_ABI}"
+set(DEBUG_SYMBOLS_PATH "${CMAKE_BINARY_DIR}/symbols" CACHE STRING "" FORCE)
 
 FetchContent_MakeAvailable(shadowhook lsplant)
 
