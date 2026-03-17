@@ -28,7 +28,10 @@ FetchContent_MakeAvailable(shadowhook lsplant)
 
 add_library(wxwork-tablet SHARED jni/main.cpp)
 
-target_include_directories(wxwork-tablet PRIVATE jni)
+target_include_directories(wxwork-tablet PRIVATE
+    jni
+    ${lsplant_SOURCE_DIR}/lsplant/include
+)
 
 target_link_libraries(wxwork-tablet
     lsplant
