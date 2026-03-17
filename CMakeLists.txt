@@ -10,7 +10,7 @@ include(FetchContent)
 FetchContent_Declare(
     lsplant
     GIT_REPOSITORY https://github.com/LSPosed/LSPlant.git
-    GIT_TAG        v5.2
+    GIT_TAG        v6.4
     GIT_SHALLOW    TRUE
     GIT_SUBMODULES "lsplant/src/main/jni/external/dex_builder"  # skip private test submodules
     SOURCE_SUBDIR  lsplant/src/main/jni   # actual CMakeLists.txt location
@@ -24,6 +24,10 @@ FetchContent_Declare(
     GIT_SHALLOW    TRUE
     SOURCE_SUBDIR  shadowhook/src/main/cpp   # actual CMakeLists.txt location
 )
+
+# Build lsplant as static lib — avoids the post-build debug-symbol step that
+# uses an incorrect absolute path (/${ANDROID_ABI}) in standalone CMake builds
+set(LSPLANT_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(shadowhook lsplant)
 
