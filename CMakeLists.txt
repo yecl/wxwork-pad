@@ -22,6 +22,7 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/bytedance/android-inline-hook.git
     GIT_TAG        v1.1.1
     GIT_SHALLOW    TRUE
+    SOURCE_SUBDIR  shadowhook/src/main/cpp   # actual CMakeLists.txt location
 )
 
 FetchContent_MakeAvailable(shadowhook lsplant)
@@ -31,6 +32,7 @@ add_library(wxwork-tablet SHARED jni/main.cpp)
 target_include_directories(wxwork-tablet PRIVATE
     jni
     ${lsplant_SOURCE_DIR}/lsplant/src/main/jni/include
+    ${shadowhook_SOURCE_DIR}/shadowhook/src/main/cpp/include
 )
 
 target_link_libraries(wxwork-tablet
